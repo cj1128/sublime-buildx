@@ -9,8 +9,9 @@ class BuildX:
     self.window = None
 
     self.target_view = None
-    self.build_started = False
+    self.build_inited = False
     self.source_last_pos = 0
+    self.is_waiting = False
 
   def get_target_view(self):
     if self.target_view is not None:
@@ -36,7 +37,7 @@ class BuildX:
     return view
 
   def on_build_start(self):
-    self.build_started = True
+    self.build_inited = True
     window = self.window
     original_view = window.active_view()
 
@@ -51,7 +52,6 @@ class BuildX:
         window.set_view_index(self.target_view, target_group_index, 0)
 
       # focus target view
-      print(original_view.file_name())
       self.window.focus_view(self.target_view)
       self.window.focus_view(original_view)
 
@@ -59,51 +59,113 @@ class BuildX:
     self.source_last_pos = 0
 
   def pipe_text(self):
+    self.is_waiting = False
     new_pos = self.source_view.size()
+
     region = sublime.Region(self.source_last_pos, new_pos)
     self.target_view.run_command('content_replace', {'start': self.source_last_pos, 'end': new_pos, 'text': self.source_view.substr(region)})
     self.source_last_pos = new_pos
 
-  def on_source_modified(self):
-    if self.build_started == False:
-      self.on_build_start()
-
-    self.pipe_text()
-
     # scroll to bottom
     self.target_view.show(self.target_view.size())
 
-class BuildListener(sublime_plugin.EventListener):
+  def on_source_modified(self):
+    if self.is_waiting:
+      return
+
+    # if build is very fast
+    # we will see no change in build output
+    # delay 100ms so that we can see the content is flashing
+    if self.build_inited == False:
+      self.on_build_start()
+      self.is_waiting = True
+      sublime.set_timeout(self.pipe_text, 100)
+    else:
+      self.pipe_text()
+
+  def on_source_selection_modified(self):
+    if len(self.source_view.sel()) == 0:
+      return
+
+    target = self.source_view.sel()[0]
+    if target.a == target.b:
+      return
+
+    sel = self.target_view.sel()
+    sel.clear()
+    sel.add(target)
+
+    # jump to target view and back to refresh selection
+    origin = self.window.active_view()
+    self.window.focus_view(self.target_view)
+    self.window.focus_view(origin)
+
+class BuildXListener(sublime_plugin.EventListener):
   def __init__(self):
-    self.buildx = BuildX()
+    # map output panel view id -> buildx object
+    self.buildx_map = {}
+
+  def get_buildx(self, view):
+    if view is None:
+      return None
+
+    return self.buildx_map.get(view.id())
+
+  def set_buildx(self, buildx, view):
+    self.buildx_map[view.id()] = buildx
 
   def on_modified(self, view):
-    if self.buildx.source_view is None:
+    buildx = self.get_buildx(view)
+    if buildx is None:
       return
 
-    if view.id() != self.buildx.source_view.id():
+    if view.id() != buildx.source_view.id():
       return
 
-    self.buildx.on_source_modified()
+    buildx.on_source_modified()
 
   def on_close(self, view):
-    if self.buildx.target_view is None:
+    buildx = self.get_buildx(view)
+    if buildx is None:
       return
 
-    if self.buildx.target_view.id() == view.id():
-      self.buildx.target_view = None
+    if buildx.target_view is None:
+      return
+
+    if buildx.target_view.id() == view.id():
+      buildx.target_view = None
+
+  def on_selection_modified(self, view):
+    buildx = self.get_buildx(view)
+    if buildx is None:
+      return
+
+    if view.id() != buildx.source_view.id():
+      return
+
+    buildx.on_source_selection_modified()
 
   def on_query_context(self, view, key, *args):
     if key != 'for_buildx':
       return None
 
-    buildx = self.buildx
+    source_view = view.window().get_output_panel('exec')
+    buildx = self.get_buildx(source_view)
+    if buildx is None:
+      buildx = BuildX()
+      buildx.source_view = source_view
+      buildx.window = view.window()
+      self.set_buildx(buildx, source_view)
 
-    buildx.source_view = view.window().get_output_panel('exec')
-    buildx.window = view.window()
-    buildx.build_started = False
+    buildx.build_inited = False
 
     return None
 
+class ContentReplace(sublime_plugin.TextCommand):
+  def run(self, edit, start, end, text):
+    self.view.replace(edit, sublime.Region(start, end), text)
 
-
+class ContentClear(sublime_plugin.TextCommand):
+  def run(self, edit):
+    region = sublime.Region(0, self.view.size())
+    self.view.erase(edit, region)
