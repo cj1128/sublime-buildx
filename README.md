@@ -1,6 +1,6 @@
 # Sublime BuildX
 
-![](./demo.png)
+![](./demo.gif)
 
 Sublime build system is amazing. You can run/build your file/project right in the sulbime. But the annoying thing is that normally we want a side-by-side view of our build result rather than the default bottom view.
 
@@ -14,6 +14,8 @@ This plugin enhances sublime build system to show build output right in your sid
 - Support `Build Results->Next Result` and `Build Results->Previous Result`
 
 ## Install
+
+Just use [Package Control](https://packagecontrol.io/) and search for `buildx`.
 
 ## Usage
 
