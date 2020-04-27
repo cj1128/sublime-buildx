@@ -1,5 +1,6 @@
 import sublime
 import sublime_plugin
+from os.path import join
 
 class BuildX:
   target_view_name = 'Build Output'
@@ -32,6 +33,8 @@ class BuildX:
     view = self.window.new_file()
     view.set_name(self.target_view_name)
     view.set_scratch(True)
+
+    view.set_syntax_file("Packages/sublime-buildx/Build Output.sublime-syntax")
 
     self.target_view = view
     return view
@@ -105,6 +108,7 @@ class BuildXListener(sublime_plugin.EventListener):
     # map output panel view id -> buildx object
     self.buildx_map = {}
 
+  # view is exec output panel view
   def get_buildx(self, view):
     if view is None:
       return None
@@ -124,17 +128,6 @@ class BuildXListener(sublime_plugin.EventListener):
 
     buildx.on_source_modified()
 
-  def on_close(self, view):
-    buildx = self.get_buildx(view)
-    if buildx is None:
-      return
-
-    if buildx.target_view is None:
-      return
-
-    if buildx.target_view.id() == view.id():
-      buildx.target_view = None
-
   def on_selection_modified(self, view):
     buildx = self.get_buildx(view)
     if buildx is None:
@@ -144,6 +137,14 @@ class BuildXListener(sublime_plugin.EventListener):
       return
 
     buildx.on_source_selection_modified()
+
+  def on_close(self, view):
+    for _, buildx in self.buildx_map.items():
+      if buildx.target_view is None:
+        continue
+
+      if buildx.target_view.id() == view.id():
+        buildx.target_view = None
 
   def on_query_context(self, view, key, *args):
     if key != 'for_buildx':

@@ -1,0 +1,19 @@
+%YAML 1.2
+---
+name: Build Output
+scope: text.buildoutput
+hidden: true
+contexts:
+  main:
+    # [Finished in 0.1s]
+    - match: '^\[(Finished) in (.+s)\]$'
+      captures:
+        1: string.quoted.js
+        2: comment.line.double-slash.js
+
+    # [Finished in 0.1s with exit code 1]
+    - match: '^\[(Finished) in (.+s) with exit code (\d+)\]$'
+      captures:
+        1: entity.name.tag.style.html
+        2: comment.line.double-slash.js
+        3: constant.language.boolean.false.js
