@@ -145,7 +145,6 @@ class BuildXListener(sublime_plugin.EventListener):
     if view.name() != target_view_name:
       return
 
-    print('on close')
     for _, buildx in self.buildx_map.items():
       if buildx.target_view is None:
         continue
