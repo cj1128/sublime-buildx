@@ -2,9 +2,9 @@ import sublime
 import sublime_plugin
 from os.path import join
 
-class BuildX:
-  target_view_name = 'Build Output'
+target_view_name = 'Build Output'
 
+class BuildX:
   def __init__(self):
     self.source_view = None
     self.window = None
@@ -21,7 +21,7 @@ class BuildX:
     # Find views with name
     found = None
     for view in self.window.views():
-      if view.name() == self.target_view_name:
+      if view.name() == target_view_name:
         found = view
         break
 
@@ -31,7 +31,7 @@ class BuildX:
 
     # create a view
     view = self.window.new_file()
-    view.set_name(self.target_view_name)
+    view.set_name(target_view_name)
     view.set_scratch(True)
 
     view.set_syntax_file("Packages/sublime-buildx/Build Output.sublime-syntax")
@@ -98,6 +98,9 @@ class BuildX:
     sel.clear()
     sel.add(target)
 
+    # scroll to selection region
+    self.target_view.show(target.a)
+
     # jump to target view and back to refresh selection
     origin = self.window.active_view()
     self.window.focus_view(self.target_view)
@@ -139,6 +142,10 @@ class BuildXListener(sublime_plugin.EventListener):
     buildx.on_source_selection_modified()
 
   def on_close(self, view):
+    if view.name() != target_view_name:
+      return
+
+    print('on close')
     for _, buildx in self.buildx_map.items():
       if buildx.target_view is None:
         continue
