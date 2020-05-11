@@ -21,9 +21,9 @@ Just use [Package Control](https://packagecontrol.io/) and search for `buildx`.
 
 1. Add `"show_panel_on_build": false` to your sublime preference to turn off default build panel.
 
-2. Add keybings for whatever keys you use to trigger your build.
+2. Add keybings for whatever keys you want to use to trigger the build.
 
-e.g. in Mac OS, default keys to trigger build are `super+b` and `super+shift+b`. You need to add two key bindings as follows:
+e.g. If you want to use `super+b` to trigger build and `super+shift+b` to select the build target, add these key bindings:
 
 ```js
 {

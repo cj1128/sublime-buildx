@@ -166,7 +166,7 @@ class BuildXListener(sublime_plugin.EventListener):
 
     buildx.build_inited = False
 
-    return None
+    return True
 
 class ContentReplace(sublime_plugin.TextCommand):
   def run(self, edit, start, end, text):
