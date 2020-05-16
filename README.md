@@ -1,5 +1,7 @@
 # Sublime BuildX
 
+[![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://mit-license.org/2016)
+
 ![](./demo.gif)
 
 Sublime build system is amazing. You can run/build your file/project right in the sulbime. But the annoying thing is that normally we want a side-by-side view of our build result rather than the default bottom view.
@@ -15,7 +17,14 @@ This plugin enhances sublime build system to show build output right in your sid
 
 ## Install
 
-Just use [Package Control](https://packagecontrol.io/) and search for `buildx`.
+Currently this plugin is being reviewed by package control, so it has to be manually installed.
+
+```bash
+# cd into packages directory
+# you can get it by running `Preferences: Browse Packages` in command palette
+$ cd ...
+$ git clone https://github.com/cj1128/sublime-buildx.git
+```
 
 ## Usage
 
@@ -38,3 +47,7 @@ e.g. If you want to use `super+b` to trigger build and `super+shift+b` to select
   "context": [{"key": "for_buildx", "operator":"equal", "operand":true}]
 },
 ```
+
+## MIT License
+
+Released under the [MIT license](http://mit-license.org/2020).
