@@ -58,7 +58,7 @@ class BuildX:
       self.window.focus_view(self.target_view)
       self.window.focus_view(original_view)
 
-    self.target_view.run_command('content_clear')
+    self.target_view.run_command('buildx_content_clear')
     self.source_last_pos = 0
 
   def pipe_text(self):
@@ -66,7 +66,7 @@ class BuildX:
     new_pos = self.source_view.size()
 
     region = sublime.Region(self.source_last_pos, new_pos)
-    self.target_view.run_command('content_replace', {'start': self.source_last_pos, 'end': new_pos, 'text': self.source_view.substr(region)})
+    self.target_view.run_command('buildx_content_replace', {'start': self.source_last_pos, 'end': new_pos, 'text': self.source_view.substr(region)})
     self.source_last_pos = new_pos
 
     # scroll to bottom
@@ -168,11 +168,11 @@ class BuildXListener(sublime_plugin.EventListener):
 
     return True
 
-class ContentReplace(sublime_plugin.TextCommand):
+class BuildxContentReplace(sublime_plugin.TextCommand):
   def run(self, edit, start, end, text):
     self.view.replace(edit, sublime.Region(start, end), text)
 
-class ContentClear(sublime_plugin.TextCommand):
+class BuildxContentClear(sublime_plugin.TextCommand):
   def run(self, edit):
     region = sublime.Region(0, self.view.size())
     self.view.erase(edit, region)

@@ -17,14 +17,7 @@ This plugin enhances sublime build system to show build output right in your sid
 
 ## Install
 
-Currently this plugin is being reviewed by package control, so it has to be manually installed.
-
-```bash
-# cd into packages directory
-# you can get it by running `Preferences: Browse Packages` in command palette
-$ cd ...
-$ git clone https://github.com/cj1128/sublime-buildx.git
-```
+Search `buildx` in [Package Control](https://packagecontrol.io/).
 
 ## Usage
 
