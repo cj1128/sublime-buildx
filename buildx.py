@@ -34,7 +34,7 @@ class BuildX:
     view.set_name(target_view_name)
     view.set_scratch(True)
 
-    view.set_syntax_file("Packages/sublime-buildx/Build Output.sublime-syntax")
+    view.set_syntax_file("Packages/BuildX/Build Output.sublime-syntax")
 
     self.target_view = view
     return view
