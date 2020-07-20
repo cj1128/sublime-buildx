@@ -11,13 +11,19 @@ This plugin enhances sublime build system to show build output right in your sid
 ## Features
 
 - Show build output in a normal view instead of default bottom panel
-- Automatically focus build output view when you build if you have >=2 columns
-- Ship a syntax file for build output view so it's colorful.
+- Automatically focus build output view if you have >=2 columns
+- Support ANSI colors
 - Support `Build Results->Next Result` and `Build Results->Previous Result`
+
+- Toggle syntax
 
 ## Install
 
 Search `buildx` in [Package Control](https://packagecontrol.io/).
+
+## Known Issues
+
+- Cursor is invisible in the custom region: https://github.com/sublimehq/sublime_text/issues/2874
 
 ## Usage
 

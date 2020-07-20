@@ -1,0 +1,37 @@
+[
+  {
+    "caption": "Preferences",
+    "id": "preferences",
+    "children": [
+      {
+        "caption": "Package Settings",
+        "id": "package-settings",
+        "children": [
+          {
+            "caption": "BuildX",
+            "children": [
+              {
+                "caption": "Settings",
+                "command": "edit_settings",
+                "args": {
+                  "base_file": "${packages}/BuildX/BuildX.sublime-settings",
+                  "default": "{\n\t$0\n}\n"
+                }
+              },
+              {
+                "caption": "-"
+              },
+              {
+                "caption": "README",
+                "command": "open_file",
+                "args": {
+                  "file": "${packages}/README.md"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
