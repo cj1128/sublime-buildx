@@ -2,6 +2,8 @@
 
 [![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://mit-license.org/2016)
 
+Show build output side by side with color!
+
 ![](./demo.gif)
 
 Sublime build system is amazing. You can run/build your file/project right in the sulbime. But the annoying thing is that normally we want a side-by-side view of our build result rather than the default bottom view.
@@ -10,12 +12,10 @@ This plugin enhances sublime build system to show build output right in your sid
 
 ## Features
 
-- Show build output in a normal view instead of default bottom panel
+- Show build output in a normal view instead of the default bottom panel
 - Automatically focus build output view if you have >=2 columns
 - Support ANSI colors
 - Support `Build Results->Next Result` and `Build Results->Previous Result`
-
-- Toggle syntax
 
 ## Install
 

@@ -53,31 +53,31 @@ class Reader:
   def is_empty(self):
     return self.index >= self.length
 
+color_mapping = {
+  30: "black",
+  31: "red",
+  32: "green",
+  33: "yellow",
+  34: "blue",
+  35: "magenta",
+  36: "cyan",
+  37: "white",
+  90: "bright_black",
+  91: "bright_red",
+  92: "bright_green",
+  93: "bright_yellow",
+  94: "bright_blue",
+  95: "bright_magenta",
+  96: "bright_cyan",
+  97: "bright_white",
+}
+
 # [0m
 # [1m
 # [38;5;{0-15}m
 # [{30-37,90-97}m
 # compound: [0;1;{30-37,90-97}m
 class ANSIProcessor:
-  color_mapping = {
-    30: "black",
-    31: "red",
-    32: "green",
-    33: "yellow",
-    34: "blue",
-    35: "magenta",
-    36: "cyan",
-    37: "white",
-    90: "bright_black",
-    91: "bright_red",
-    92: "bright_green",
-    93: "bright_yellow",
-    94: "bright_blue",
-    95: "bright_magenta",
-    96: "bright_cyan",
-    97: "bright_white",
-  }
-
   def __init__(self):
     self.bold = False
     self.color = "default"
@@ -98,7 +98,7 @@ class ANSIProcessor:
     if num >= 8 and num <= 15:
       index = 90 + num % 8
 
-    return ANSIProcessor.color_mapping[index]
+    return color_mapping[index]
 
   def clear(self):
     self.bold = False
