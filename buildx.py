@@ -193,18 +193,34 @@ class BuildX:
     self.source_last_pos = 0
 
   def ansi_process(self, view, content):
+    # used to cache group of 'char' type
+    content_index = -1
+    content_texts = []
+
     for item in self.ansi.process(content):
       (type, value) = item
       if type == "char":
         (index, char) = value
-        view.run_command("buildx_content_append", {"index": index, "text": char})
+        if content_index == -1:
+          content_index = index
+
+        content_texts.append(char)
 
       if type == "region":
+        if content_index != -1:
+          view.run_command("buildx_content_append", {"index": content_index, "text": "".join(content_texts)})
+          content_texts.clear()
+          content_index = -1
+
         (start, end, color, bold) = value
         scope = "%s.bold" % color if bold else color
         region_key = str(start)
         self.regions.append(region_key)
         view.add_regions(region_key, [sublime.Region(start, end)], scope)
+
+    if content_index != -1:
+      view.run_command("buildx_content_append", {"index": content_index, "text": "".join(content_texts)})
+      content_texts.clear()
 
   def pipe_text(self):
     self.is_waiting = False
