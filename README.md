@@ -21,10 +21,6 @@ This plugin enhances sublime build system to show build output right in your sid
 
 Search `buildx` in [Package Control](https://packagecontrol.io/).
 
-## Known Issues
-
-- Cursor is invisible in the custom region: https://github.com/sublimehq/sublime_text/issues/2874
-
 ## Usage
 
 1. Add `"show_panel_on_build": false` to your sublime preference to turn off default build panel.

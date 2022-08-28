@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 name: BuildX
-scope: text.buildoutput
+scope: text.buildx
 contexts:
   main:
     # [Finished in 0.1s]

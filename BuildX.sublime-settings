@@ -26,13 +26,13 @@
     "bright_yellow": "#e5c07b",
     "bright_blue": "#61afef",
     "bright_magenta": "#c678dd",
-    "bright_cyan": "#56b6c2",
+    "bright_cyan": "#56b6c2"
   },
   "syntax_color": {
     "success_msg": "#98c379",
     "success_time": "#ccc",
     "error_msg": "#e06c75",
     "error_time": "#ccc",
-    "error_code": "#e5c07b",
-  },
+    "error_code": "#e5c07b"
+  }
 }
