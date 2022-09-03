@@ -174,12 +174,15 @@ class BuildX:
 
   def on_build_start(self):
     self.build_inited = True
-    self.ansi.clear()
     window = self.window
     original_view = window.active_view()
 
     self.target_view = self.get_target_view()
     self.target_view.settings().set("translate_tabs_to_spaces", not get_setting("preserve_content"))
+
+    # get_target_view will trigger 'on_view_settings_change' and
+    # will invoke ansi_processor
+    self.ansi.clear()
 
     # focus target view in other group
     if window.num_groups() > 1:
