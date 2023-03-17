@@ -43,6 +43,13 @@ e.g. If you want to use `super+b` to trigger build and `super+shift+b` to select
 },
 ```
 
+## Releases
+
+### 1.3.0
+
+- Add `clear_output_when_build_starts` setting, closes [#4](https://github.com/cj1128/sublime-buildx/issues/4).
+
+
 ## MIT License
 
 Released under the [MIT license](http://mit-license.org/2020).

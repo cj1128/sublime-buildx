@@ -356,6 +356,9 @@ class BuildXListener(sublime_plugin.EventListener):
 
     buildx.build_inited = False
 
+    if get_setting("clear_output_when_build_starts"):
+      sublime.set_timeout(buildx.on_build_start, 100)
+
     return True
 
 class BuildxContentAppend(sublime_plugin.TextCommand):

@@ -1,6 +1,7 @@
 {
   "process_ansi_color": true,
   "preserve_content": true,
+  "clear_output_when_build_starts": false,
   "ansi_color": {
     "bg": "#292d3e",
     "fg": "#abb2bf",
